@@ -4,3 +4,4 @@ supabase
 pandas
 reportlab
 python-multipart
+PyMuPDF
