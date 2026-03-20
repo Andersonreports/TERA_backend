@@ -27,12 +27,3 @@ def save_report(user_id, file_url, report_type):
     }
 
     supabase.table("reports").insert(data).execute()
-
-def save_report(user_id, file_url, report_type):
-    data = {
-        "user_id": user_id,
-        "file_url": file_url,
-        "report_type": report_type
-    }
-
-    supabase.table("reports").insert(data).execute()
