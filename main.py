@@ -1,6 +1,7 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
+from supabase_client import supabase
 import pandas as pd
 import os
 os.environ["TK_SILENCE_DEPRECATION"] = "1"
@@ -140,4 +141,8 @@ async def upload_excel(file: UploadFile = File(...)):
                 row[key] = None
 
     return {"rows": rows}
-    
+
+@app.get("/test-db")
+def test_db():
+    response = supabase.table("reports").select("*").execute()
+    return response.data
