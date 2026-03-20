@@ -1,11 +1,6 @@
 fastapi
-uvicorn
+uvicorn[standard]
 supabase
 pandas
 reportlab
 python-multipart
-pdfplumber
-pypdfium2
-Pillow
-openpyxl
-xlrd
