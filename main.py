@@ -71,6 +71,37 @@ def preview_file(filename: str):
     return FileResponse(path, media_type="application/pdf")
 
 
+# -------- Single Report Generation --------
+@app.post("/generate")
+async def generate_report(data: dict):
+
+    try:
+        generator = TERAReportGenerator(data, REPORT_DIR)
+        pdf_path = generator.generate()
+
+        # check if file exists
+        if not pdf_path or not os.path.exists(pdf_path):
+            return {"error": "PDF not generated"}
+
+        report_id = str(uuid.uuid4())
+        user_id = "user1"
+
+        file_name = f"{user_id}/{report_id}.pdf"
+
+        # upload to Supabase
+        file_url = upload_pdf(pdf_path, file_name)
+
+        # save to DB
+        save_report(user_id, file_url, "tera")
+
+        return {
+            "status": "success",
+            "file_url": file_url
+        }
+
+    except Exception as e:
+        return {"error": str(e)}
+        
 # -------- Bulk Report Generation --------
 @app.post("/generate-bulk")
 async def generate_bulk(data: list):
