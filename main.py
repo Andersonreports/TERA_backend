@@ -2,6 +2,8 @@ from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from supabase_client import supabase
+from supabase_client import upload_pdf
+
 import pandas as pd
 import os
 os.environ["TK_SILENCE_DEPRECATION"] = "1"
@@ -146,3 +148,12 @@ async def upload_excel(file: UploadFile = File(...)):
 def test_db():
     response = supabase.table("reports").select("*").execute()
     return response.data
+
+@app.get("/test-upload")
+def test_upload():
+    file_path = "test.pdf"  # make sure this file exists
+    file_name = "test/test.pdf"
+
+    url = upload_pdf(file_path, file_name)
+
+    return {"file_url": url}
