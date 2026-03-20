@@ -40,7 +40,7 @@ os.makedirs(REPORT_DIR, exist_ok=True)
 app.mount("/reports", StaticFiles(directory=REPORT_DIR), name="reports")
 @app.get("/")
 def root():
-    return {"status": "TERA backend running"}
+    return {"status": "TERA backend running successfully"}
 
 
 # -------- Preview Report --------
